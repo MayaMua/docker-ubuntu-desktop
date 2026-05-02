@@ -56,20 +56,10 @@ RUN bash /docker_config/pre_install.sh &&\
 
 ## Install desktop
 RUN apt-get update && \
-    # add apt repo for firefox
-    add-apt-repository -y ppa:mozillateam/ppa &&\
-    mkdir -p /etc/apt/preferences.d &&\
-    echo "Package: firefox*\n\
-Pin: release o=LP-PPA-mozillateam\n\
-Pin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox &&\
-    # install xfce4 and firefox
-    apt-get install -y xfce4 terminator fonts-wqy-zenhei pulseaudio ffmpeg firefox &&\
+    apt-get install -y xfce4 terminator fonts-wqy-zenhei pulseaudio ffmpeg &&\
     # disable terminator dbus
     sed -i "s/python/python2/" /usr/share/terminator/terminator &&\
     sed -i "s/if OPTIONS.nodbus:/if True:/" /usr/share/terminator/terminator &&\
-    # set firefox as default web browser
-    update-alternatives --set x-www-browser /usr/bin/firefox &&\
-    #
     update-locale LC_CTYPE=C.UTF-8 &&\
     rm -rf /var/lib/apt/lists/*
 

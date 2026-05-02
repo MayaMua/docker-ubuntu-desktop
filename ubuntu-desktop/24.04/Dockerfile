@@ -59,18 +59,9 @@ RUN bash /docker_config/pre_install.sh &&\
 
 ## Install desktop
 RUN apt-get update && \
-    # add apt repo for firefox
-    add-apt-repository -y ppa:mozillateam/ppa &&\
-    mkdir -p /etc/apt/preferences.d &&\
-    echo "Package: firefox*\n\
-Pin: release o=LP-PPA-mozillateam\n\
-Pin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox &&\
-    # install xfce4 and firefox
-    apt-get install -y xfce4 terminator fonts-wqy-zenhei pulseaudio ffmpeg firefox dbus-x11 &&\
+    apt-get install -y xfce4 terminator fonts-wqy-zenhei pulseaudio ffmpeg dbus-x11 &&\
     # remove and disable screensaver
     apt-get remove -y xfce4-screensaver --purge &&\
-    # set firefox as default web browser
-    update-alternatives --set x-www-browser /usr/bin/firefox &&\
     rm -rf /var/lib/apt/lists/*
 
 ## Configure ssh 

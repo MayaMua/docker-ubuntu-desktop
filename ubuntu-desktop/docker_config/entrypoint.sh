@@ -11,6 +11,16 @@ if [ ! -f "/docker_config/init_flag" ]; then
     useradd --create-home --no-log-init -u $UID -g $GID $USER
     usermod -aG sudo $USER
     usermod -aG ssl-cert $USER
+    # docker socket support
+    if [ -S /var/run/docker.sock ]; then
+        DOCKER_GID=$(stat -c '%g' /var/run/docker.sock)
+        if ! getent group $DOCKER_GID > /dev/null 2>&1; then
+            groupadd -g $DOCKER_GID docker
+        fi
+        DOCKER_GROUP=$(getent group $DOCKER_GID | cut -d: -f1)
+        usermod -aG $DOCKER_GROUP $USER
+    fi
+    # password
     echo "root:$PASSWORD" | chpasswd
     echo "$USER:$PASSWORD" | chpasswd
     chsh -s /bin/bash $USER

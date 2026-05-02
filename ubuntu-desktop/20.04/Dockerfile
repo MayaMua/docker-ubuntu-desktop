@@ -56,16 +56,7 @@ RUN bash /docker_config/pre_install.sh &&\
 
 ## Install desktop
 RUN apt-get update && \
-    # add apt repo for firefox
-    add-apt-repository -y ppa:mozillateam/ppa &&\
-    mkdir -p /etc/apt/preferences.d &&\
-    echo "Package: firefox*\n\
-Pin: release o=LP-PPA-mozillateam\n\
-Pin-Priority: 1001" > /etc/apt/preferences.d/mozilla-firefox &&\
-    # install xfce4 and firefox
-    apt-get install -y xfce4 terminator fonts-wqy-zenhei pulseaudio ffmpeg firefox &&\
-    # set firefox as default web browser
-    update-alternatives --set x-www-browser /usr/bin/firefox &&\
+    apt-get install -y xfce4 terminator fonts-wqy-zenhei pulseaudio ffmpeg &&\
     rm -rf /var/lib/apt/lists/*
 
 ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
