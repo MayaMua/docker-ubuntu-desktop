@@ -34,7 +34,7 @@ else
     DOCKER_TAG=${UBUNTU_VERSION}-cu${CUDA_VERSION}
 fi
 
-docker build ubuntu-desktop --file ubuntu-desktop/${UBUNTU_VERSION}/Dockerfile \
+docker build --network host ubuntu-desktop --file ubuntu-desktop/${UBUNTU_VERSION}/Dockerfile \
              --build-arg BASE_IMAGE=${BASE_IMAGE} \
              --tag ubuntu-desktop:${DOCKER_TAG}
 if [[ $? != 0 ]]; then 
